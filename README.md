@@ -9,4 +9,4 @@ go run processB.go
 ```bash 
 go run processA.go
 ```
-3. Follow printed instructions of TCP client.
+3. Follow printed instructions of TCP client in terminal.
