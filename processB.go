@@ -8,32 +8,29 @@ import (
 )
 
 func main() {
-	// Listen to TCP port on localhost.
+	// Listen to an unused TCP port on localhost.
 	listener, err := net.Listen("tcp", ":1234")
 	errorchecking.CheckError(err, "B")
 	fmt.Println("Listening to tcp port was successful!")
 	defer listener.Close()
 
-	// Wait for connection from a client.
+	// Wait for a connection from a client to our TCP port and then set up a TCP channel with them.
 	c, err := listener.Accept()
 	errorchecking.CheckError(err, "B")
 	fmt.Println("Connection to client was successful!")
 
-	// Serve client as long as process is activated.
-	for {
-		// Read and print email sent by client.
-		email, err := bufio.NewReader(c).ReadString('\t')
-		errorchecking.CheckError(err, "B")
-		fmt.Println("Email received!")
-		fmt.Println("---------------")
-		fmt.Println(email)
-		fmt.Println("---------------")
+	// Read and print email sent by client through TCP channel
+	email, err := bufio.NewReader(c).ReadString('\t')
+	errorchecking.CheckError(err, "B")
+	fmt.Println("Email received!")
+	fmt.Println("---------------")
+	fmt.Println(email)
+	fmt.Println("---------------")
 
-		// Send acknowledgement to client.
-		fmt.Fprintf(c, "roger that")
-		fmt.Println("Sent acknowledgement to client!")
+	// Send acknowledgement to client.
+	fmt.Fprintf(c, "roger that")
+	fmt.Println("Sent acknowledgement to client!")
 
-		fmt.Println("Exiting program...")
-		return
-	}
+	fmt.Println("Exiting program...")
+	return
 }

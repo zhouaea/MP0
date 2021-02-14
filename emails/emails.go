@@ -1,9 +1,3 @@
-/*Sample input:
-	Bob
-	Sally
-	Hello
-	World*/
-
 package emails
 
 import (
@@ -13,36 +7,28 @@ import (
 	"time"
 )
 
+var scanner = bufio.NewScanner(os.Stdin)
+
 // Prompts a user for a To, From, Title, and Content strings through the command line to create an email object.
 func EmailPrompt() Email {
-	scanner := bufio.NewScanner(os.Stdin)
 	fmt.Println("Please input each email field on a separate line down below:")
 
-	fmt.Print("To: ")
-	scanner.Scan()
-	to := scanner.Text()
-
-	fmt.Print("From: ")
-	scanner.Scan()
-	from := scanner.Text()
-
-	/*fmt.Print("Date: ")
-	scanner.Scan()
-	date := scanner.Text()*/
+	to := promptUser("To: ")
+	from := promptUser("From: ")
 	date := time.Now().String()
-
-	fmt.Print("Title: ")
-	scanner.Scan()
-	title := scanner.Text()
-
-	fmt.Print("Content: ")
-	scanner.Scan()
-	content := scanner.Text()
+	title := promptUser("Title: ")
+	content := promptUser("Content: ")
 
 	email := Email{to, from, date, title, content}
 	return email
 }
-// Generic email type as specified in assignment.
+
+func promptUser(prompt string) string {
+	fmt.Print(prompt)
+	scanner.Scan()
+	return scanner.Text()
+}
+
 type Email struct {
 	To string
 	From string
@@ -51,7 +37,7 @@ type Email struct {
 	Content string
 }
 
-func (email *Email) String() string {
+func (email Email) String() string {
 	string := fmt.Sprintf("To: %s\nFrom: %s\nDate: %s\nTitle: %s\nContent: %s\t", email.To, email.From, email.Date, email.Title, email.Content)
 	return string
 }
